@@ -170,6 +170,49 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+-- Tables for sidebar options
+CREATE TABLE dashboard_metrics (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_email TEXT REFERENCES customers(email),
+  metrics JSONB NOT NULL,
+  last_updated TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE technician_profiles (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_email TEXT REFERENCES customers(email),
+  name TEXT NOT NULL,
+  specialization TEXT[],
+  bio TEXT,
+  rating DECIMAL(3,2),
+  schedule JSONB
+);
+
+CREATE TABLE appointment_schedule (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_email TEXT REFERENCES customers(email),
+  date DATE NOT NULL,
+  time_slots JSONB NOT NULL,
+  notes TEXT
+);
+
+CREATE TABLE service_catalog (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_email TEXT REFERENCES customers(email),
+  name TEXT NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2),
+  duration_minutes INTEGER,
+  category TEXT
+);
+
+CREATE TABLE user_settings (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_email TEXT REFERENCES customers(email) UNIQUE,
+  preferences JSONB NOT NULL,
+  notification_settings JSONB
+);
+
 -- Indexes for performance
 CREATE INDEX idx_appointments_customer_id ON appointments(customer_id);
 CREATE INDEX idx_appointments_staff_id ON appointments(staff_id);

@@ -1,0 +1,3 @@
+-- Map appointment_schedule table to sked in our application
+-- This is just a comment file to document the mapping, no actual table renaming
+-- The application code will use 'sked' as the table name when referring to 'appointment_schedule'

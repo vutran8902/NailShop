@@ -46,42 +46,52 @@ export default function ThemeToggle() {
 
   return (
     <button 
-      className={`theme-toggle ${isDarkMode ? 'dark' : ''}`} 
+      className={`
+        theme-toggle p-2 rounded-full backdrop-blur-3xl
+        bg-gradient-to-r from-pink-100/40 to-purple-100/40 
+        dark:from-purple-900/40 dark:to-pink-900/40 
+        border-2 border-white/30 dark:border-black/30
+        shadow-lg hover:shadow-xl transition-all duration-300
+        hover:scale-110 active:scale-95
+        ${isDarkMode ? 'dark' : ''}
+      `}
+      style={{
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        boxShadow: isDarkMode 
+          ? '0 0 15px 2px rgba(147, 51, 234, 0.3), inset 0 0 10px rgba(147, 51, 234, 0.2)' 
+          : '0 0 15px 2px rgba(236, 72, 153, 0.3), inset 0 0 10px rgba(236, 72, 153, 0.2)',
+      }}
       onClick={toggleTheme}
       aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      <svg 
-        xmlns="http://www.w3.org/2000/svg" 
-        className="toggle-icon sun-icon" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke="currentColor" 
-        strokeWidth="2" 
-        strokeLinecap="round" 
-        strokeLinejoin="round"
-      >
-        <circle cx="12" cy="12" r="5"></circle>
-        <line x1="12" y1="1" x2="12" y2="3"></line>
-        <line x1="12" y1="21" x2="12" y2="23"></line>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-        <line x1="1" y1="12" x2="3" y2="12"></line>
-        <line x1="21" y1="12" x2="23" y2="12"></line>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-      </svg>
-      <svg 
-        xmlns="http://www.w3.org/2000/svg" 
-        className="toggle-icon moon-icon" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke="currentColor" 
-        strokeWidth="2" 
-        strokeLinecap="round" 
-        strokeLinejoin="round"
-      >
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-      </svg>
+      <div className="relative w-7 h-7 flex items-center justify-center transition-transform duration-300" style={{ transform: isDarkMode ? 'translateX(20px)' : 'translateX(0)' }}>
+        {/* Sun icon */}
+        <div 
+          className={`
+            absolute inset-0 flex items-center justify-center transition-all duration-500
+            ${isDarkMode ? 'opacity-0 rotate-90 scale-0' : 'opacity-100 rotate-0 scale-100'}
+          `}
+        >
+          <div className="w-5 h-5 bg-amber-400 rounded-full shadow-lg" style={{
+            boxShadow: '0 0 20px 5px rgba(251, 191, 36, 0.7)'
+          }}></div>
+        </div>
+        
+        {/* Moon icon */}
+        <div 
+          className={`
+            absolute inset-0 flex items-center justify-center transition-all duration-500
+            ${isDarkMode ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'}
+          `}
+        >
+          <div className="w-5 h-5 bg-indigo-200 rounded-full shadow-lg overflow-hidden" style={{
+            boxShadow: '0 0 20px 5px rgba(129, 140, 248, 0.7)'
+          }}>
+            <div className="w-3 h-3 bg-indigo-900 rounded-full relative -top-1 -right-3"></div>
+          </div>
+        </div>
+      </div>
     </button>
   );
 }
